@@ -23,7 +23,7 @@ class Pago(db.Model):
     estado_pago=db.Column(db.Enum(EstadoPago), nullable=False, default="PENDIENTE")
     provedor_de_pago = db.Column(db.Integer, db.ForeignKey('Provedor_de_Pago.id'))
 
-class PagoYInformacionTarjeta:
+class PagoYInformacionTarjetaDTO:
     def __init__(self, payer_id, name, identification_number,id_reserva, payment_method, number, expiration_date,valor):
         self.payer_id = payer_id
         self.name = name

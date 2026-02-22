@@ -1,5 +1,5 @@
 from flask_restful import Resource
-from ..modelos import db, Pago, PagoScheme, PagoScheme, PagoYInformacionTarjeta, EstadoPago
+from ..modelos import db, Pago, PagoScheme, PagoScheme, PagoYInformacionTarjetaDTO, EstadoPago
 from flask import request, current_app
 import requests
 
@@ -13,7 +13,7 @@ class VistaPagos(Resource):
     
 
     def post(self):
-        nueva_solicitud = PagoYInformacionTarjeta(
+        nueva_solicitud = PagoYInformacionTarjetaDTO(
             payer_id = request.json['payer_id'],
             name = request.json['name'],
             identification_number = request.json['identification_number'],
@@ -47,7 +47,7 @@ class VistaPagos(Resource):
             valor=nueva_solicitud.valor,
             token_tarjeta=token_tarjeta,
             id_reserva= nueva_solicitud.id_reserva,
-            estado_pago=EstadoPago.ACTIVA,
+            estado_pago=EstadoPago.PAGADO,
             provedor_de_pago=1
         )
 
