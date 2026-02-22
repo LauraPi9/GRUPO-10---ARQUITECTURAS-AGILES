@@ -13,7 +13,7 @@ db.create_all()
 
 api = Api(app)
 api.add_resource(VistaPagos,'/pagos')
-api.add_resource(VistaPago,'/pago/<int:id_cancion>')
+api.add_resource(VistaPago,'/pago/<int:id_pago>')
 
 with app.app_context():
     pago_esquema = PagoScheme()
