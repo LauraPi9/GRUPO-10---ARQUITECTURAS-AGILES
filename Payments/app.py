@@ -19,12 +19,14 @@ with app.app_context():
     pago_esquema = PagoScheme()
     pago1 = Pago(
         valor = 54523.25,
+        id_reserva= 1,
         token_tarjeta= "errIuyhk7394hhKKK00jKUU",
         estado_pago = EstadoPago.PENDIENTE,
     )
 
     pago2 = Pago(
         valor =10000,
+         id_reserva= 2,
         token_tarjeta="J098h@$Fjqjsd423f",
         estado_pago= EstadoPago.PAGADO,
     )

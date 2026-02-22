@@ -19,19 +19,20 @@ class Pago(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     valor = db.Column(db.Float, nullable=False)
     token_tarjeta = db.Column(db.String(256), nullable=True)
+    id_reserva= db.Column(db.Integer, nullable=False)
     estado_pago=db.Column(db.Enum(EstadoPago), nullable=False, default="PENDIENTE")
     provedor_de_pago = db.Column(db.Integer, db.ForeignKey('Provedor_de_Pago.id'))
 
 class PagoYInformacionTarjeta:
-    def __init__(self, payer_id, name, identification_number, payment_method, number, expiration_date,valor):
+    def __init__(self, payer_id, name, identification_number,id_reserva, payment_method, number, expiration_date,valor):
         self.payer_id = payer_id
         self.name = name
+        self.id_reserva = id_reserva
         self.identification_number = identification_number
         self.payment_method = payment_method
         self.number = number
         self.expiration_date = expiration_date
         self.valor = valor
-
 
 class ProvedorPago(db.Model):
     __tablename__ = "Provedor_de_Pago"

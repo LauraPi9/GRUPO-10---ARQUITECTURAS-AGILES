@@ -18,6 +18,7 @@ class VistaPagos(Resource):
             name = request.json['name'],
             identification_number = request.json['identification_number'],
             payment_method = request.json['payment_method'], #VISA, MASTERCARD
+            id_reserva = request.json['id_reserva'],
             number = request.json['number'],
             expiration_date = request.json['expiration_date'],
             valor = request.json['valor'],
@@ -45,9 +46,12 @@ class VistaPagos(Resource):
         nuevo_pago = Pago(
             valor=nueva_solicitud.valor,
             token_tarjeta=token_tarjeta,
+            id_reserva= nueva_solicitud.id_reserva,
             estado_pago=EstadoPago.ACTIVA,
             provedor_de_pago=1
         )
+
+        print(nuevo_pago)
 
         db.session.add(nuevo_pago)
         db.session.commit()
