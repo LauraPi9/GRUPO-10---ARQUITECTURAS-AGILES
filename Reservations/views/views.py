@@ -38,6 +38,7 @@ class ReservationView(Resource):
         )
 
         new_reservation = Reservation(
+            confirmation_code="ABC123",
             creation_date=datetime.fromisoformat(request.json["creation_date"]),
             check_in_date=date.fromisoformat(request.json["check_in_date"]),
             check_out_date=date.fromisoformat(request.json["check_out_date"]),
