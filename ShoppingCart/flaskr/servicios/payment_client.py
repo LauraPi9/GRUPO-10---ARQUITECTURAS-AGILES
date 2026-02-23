@@ -9,15 +9,7 @@ class PaymentClient:
 
     @staticmethod
     def create_payment(payment_data):
-        """
-        Envía una solicitud de pago al servicio de pagos.
-
-        Args:
-            payment_data (dict): Datos del pago
-
-        Returns:
-            tuple: (success: bool, response_data: dict, status_code: int)
-        """
+        
         try:
             payment_service_url = current_app.config.get("PAYMENT_SERVICE_URL")
             url = f"{payment_service_url}/pagos"

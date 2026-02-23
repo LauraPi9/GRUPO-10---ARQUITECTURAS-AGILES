@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from ..modelos import db, Pago, PagoScheme, PagoScheme, PagoYInformacionTarjetaDTO, EstadoPago
 from flask import request, current_app
+import random
 import requests
 
 pago_schema = PagoScheme()
@@ -55,7 +56,14 @@ class VistaPagos(Resource):
 
         db.session.add(nuevo_pago)
         db.session.commit()
-        return pago_schema.dump(nuevo_pago), 201
+        response_data = pago_schema.dump(nuevo_pago)
+
+        if current_app.config.get("PAYMENTS_INJECT_FAULT"):
+            prob = current_app.config.get("PAYMENTS_FAULT_PROBABILITY", 0.5)
+            if random.random() < prob:
+                valor_correcto = float(nueva_solicitud.valor)
+                response_data["valor"] = valor_correcto * 0.9 
+        return response_data, 201
     
 class VistaPago(Resource):
       def get(self, id_pago):

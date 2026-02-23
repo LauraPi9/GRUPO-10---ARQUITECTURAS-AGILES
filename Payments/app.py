@@ -46,7 +46,10 @@ with app.app_context():
     db.session.add(mercado_pago)
     db.session.add(payU)
     db.session.commit()
-    print([pago_esquema.dumps(pago) for pago in Pago.query.all()])    
+    print([pago_esquema.dumps(pago) for pago in Pago.query.all()])
     print(ProvedorPago.query.all())
 
-
+if __name__ == "__main__":
+    import os
+    port = int(os.getenv("PAYMENTS_PORT", "5001"))
+    app.run(host="0.0.0.0", port=port, debug=True)

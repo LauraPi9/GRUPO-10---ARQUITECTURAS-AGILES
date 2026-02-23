@@ -31,7 +31,7 @@ def calculate_amounts(amount_subtotal, currency):
 
 
 class ReservationView(Resource):
-    # Create resevation
+    
     def post(self):
         amount_subtotal, amount_taxes, amount_commission, amount_total = (
             calculate_amounts(request.json["amount_subtotal"], request.json["currency"])
@@ -60,16 +60,23 @@ class ReservationView(Resource):
 
         json_reservation = reservation_schema.dump(new_reservation)
 
+        json_reservation["confirmation_code"] = (
+            json_reservation.get("confirmation_code") or f"RES-{new_reservation.id}"
+        )
+        json_reservation["status"] = "CREATED"
+        for key in ("amount_subtotal", "amount_taxes", "amount_commission", "amount_total"):
+            if key in json_reservation and json_reservation[key] is not None:
+                json_reservation[key] = float(json_reservation[key])
+
         json_shopping_cart = {
             "payer_id": 1,
             "payer_name": "TEST",
             "reservation": json_reservation,
         }
 
-        # Add reservation to shopping cart
         try:
             shopping_cart_response = requests.post(
-                "http://localhost:5002/cart/add", json=json_shopping_cart, timeout=5
+                "http://localhost:5002/cart/add", json=json_shopping_cart, timeout=60
             )
             shopping_cart_response.raise_for_status()
         except RequestException:
